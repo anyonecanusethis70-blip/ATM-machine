@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ATM Machine</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #101820, #1c2b39);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .atm {
+            width: 430px;
+            background: #d9d9d9;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        }
+
+        .atm-top {
+            background: #17202a;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            border-radius: 15px 15px 8px 8px;
+            margin-bottom: 20px;
+        }
+
+        .atm-top h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .atm-top p {
+            font-size: 13px;
+            color: #bbb;
+        }
+
+        .screen {
+            background: #071a13;
+            color: #00ff88;
+            min-height: 390px;
+            border: 8px solid #444;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: inset 0 0 20px rgba(0,255,136,0.2);
+        }
+
+        .screen h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .screen p {
+            margin: 12px 0;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #00ff88;
+            border-radius: 6px;
+            background: #00150d;
+            color: #00ff88;
+            outline: none;
+            font-size: 16px;
+        }
+
+        input::placeholder {
+            color: #579f7d;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #00ff88;
+            border-radius: 6px;
+            background: #00150d;
+            color: #00ff88;
+            outline: none;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 7px 0;
+            border: none;
+            border-radius: 7px;
+            background: #00a86b;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #00c982;
+            transform: scale(1.02);
+        }
+
+        .danger {
+            background: #c0392b;
+        }
+
+        .danger:hover {
+            background: #e74c3c;
+        }
+
+        .secondary {
+            background: #34495e;
+        }
+
+        .secondary:hover {
+            background: #46627f;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .message {
+            text-align: center;
+            margin: 15px 0;
+            min-height: 25px;
+        }
+
+        .success {
+            color: #00ff88;
+        }
+
+        .error {
+            color: #ff5555;
+        }
+
+        .balance {
+            font-size: 30px;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .account-info {
+            background: #0d2b20;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 15px;
+        }
+
+        .account-info p {
+            word-break: break-word;
+        }
+
+        .transaction-list {
+            max-height: 180px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+
+        .transaction {
+            border-bottom: 1px solid #245c47;
+            padding: 10px 0;
+            font-size: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .keypad {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 7px;
+        }
+
+        .key {
+            background: #555;
+            padding: 12px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .key:hover {
+            background: #666;
+        }
+
+        .card-slot {
+            height: 12px;
+            width: 120px;
+            background: #222;
+            margin: 20px auto 5px;
+            border-radius: 10px;
+        }
+
+        .cash-slot {
+            height: 35px;
+            width: 180px;
+            background: #222;
+            margin: 20px auto;
+            border-radius: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        @media(max-width: 500px) {
+            .atm {
+                width: 100%;
+            }
+
+            .menu {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="atm">
+
+    <!-- ATM HEADER -->
+
+    <div class="atm-top">
+        <h1>🏦 ATM MACHINE</h1>
+        <p>Secure Banking System</p>
+    </div>
+
+
+    <!-- SCREEN -->
+
+    <div class="screen">
+
+        <!-- CREATE ACCOUNT -->
+
+        <div id="createAccount">
+
+            <h2>CREATE ACCOUNT</h2>
+
+            <div class="input-group">
+                <label>Enter Your Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter name"
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Enter Your Address</label>
+                <input
+                    type="text"
+                    id="address"
+                    placeholder="Enter address"
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Enter Phone Number</label>
+                <input
+                    type="tel"
+                    id="phone"
+                    maxlength="10"
+                    placeholder="Enter 10-digit phone number"
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Enter Aadhaar Number</label>
+                <input
+                    type="text"
+                    id="aadhaar"
+                    maxlength="12"
+                    placeholder="Enter 12-digit Aadhaar number"
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Enter Your Age</label>
+                <input
+                    type="number"
+                    id="age"
+                    min="1"
+                    max="120"
+                    placeholder="Enter age"
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Choose Gender</label>
+                <select id="gender">
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <button onclick="createAccount()">
+                CREATE ACCOUNT
+            </button>
+
+            <div id="createMessage" class="message"></div>
+
+        </div>
+
+
+        <!-- ACCOUNT CREATED -->
+
+        <div id="accountCreated" class="hidden">
+
+            <h2>✅ ACCOUNT CREATED</h2>
+
+            <div class="account-info">
+
+                <p>
+                    <strong>Account Holder:</strong>
+                    <span id="displayName"></span>
+                </p>
+
+                <p>
+                    <strong>Account Type:</strong>
+                    <span id="displayAccountType"></span>
+                </p>
+
+                <p>
+                    <strong>Account Number:</strong>
+                    <span id="displayAccountNumber"></span>
+                </p>
+
+                <p>
+                    <strong>IFSC Code:</strong>
+                    <span id="displayIfsc"></span>
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    <span id="displayPhone"></span>
+                </p>
+
+                <p>
+                    <strong>Age:</strong>
+                    <span id="displayAge"></span>
+                </p>
+
+                <p>
+                    <strong>Gender:</strong>
+                    <span id="displayGender"></span>
+                </p>
+
+                <p>
+                    <strong>Aadhaar:</strong>
+                    <span id="displayAadhaar"></span>
+                </p>
+
+                <p>
+                    <strong>Address:</strong>
+                    <span id="displayAddress"></span>
+                </p>
+
+                <p>
+                    <strong>Initial Balance:</strong>
+                    ₹10,000
+                </p>
+
+            </div>
+
+            <button onclick="showLogin()">
+                Continue to ATM
+            </button>
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <div id="login" class="hidden">
+
+            <h2 id="loginTitle">🔐 CREATE ATM PIN</h2>
+
+            <div class="input-group">
+
+                <label id="loginPinLabel">Create 4-Digit ATM PIN</label>
+
+                <input
+                    type="password"
+                    id="loginPin"
+                    maxlength="4"
+                    placeholder="Create 4-digit PIN"
+                >
+
+            </div>
+
+            <button onclick="login()">
+                <span id="loginButtonText">CREATE PIN</span>
+            </button>
+
+            <div id="loginMessage" class="message"></div>
+
+        </div>
+
+
+        <!-- ATM MENU -->
+
+        <div id="menuScreen" class="hidden">
+
+            <h2>WELCOME TO ATM</h2>
+
+            <p>
+                Welcome,
+                <strong id="welcomeName"></strong>
+            </p>
+
+            <div class="menu">
+
+                <button onclick="checkBalance()">
+                    💰 Check Balance
+                </button>
+
+                <button onclick="showWithdraw()">
+                    💸 Withdraw
+                </button>
+
+                <button onclick="showDeposit()">
+                    💵 Deposit
+                </button>
+
+                <button onclick="showTransactions()">
+                    📜 Transactions
+                </button>
+
+                <button
+                    class="danger"
+                    onclick="logout()"
+                >
+                    🚪 Exit
+                </button>
+
+            </div>
+
+            <div id="menuMessage" class="message"></div>
+
+        </div>
+
+
+        <!-- BALANCE -->
+
+        <div id="balanceScreen" class="hidden">
+
+            <h2>💰 ACCOUNT BALANCE</h2>
+
+            <div class="balance">
+                ₹<span id="balanceAmount"></span>
+            </div>
+
+            <button
+                class="secondary"
+                onclick="showMenu()"
+            >
+                ← Back
+            </button>
+
+        </div>
+
+
+        <!-- WITHDRAW -->
+
+        <div id="withdrawScreen" class="hidden">
+
+            <h2>💸 WITHDRAW MONEY</h2>
+
+            <p>
+                Available Balance:
+                ₹<span id="withdrawBalance"></span>
+            </p>
+
+            <div class="input-group">
+
+                <label>Enter Amount</label>
+
+                <input
+                    type="number"
+                    id="withdrawAmount"
+                    placeholder="Enter amount"
+                >
+
+            </div>
+
+            <button onclick="withdraw()">
+                WITHDRAW
+            </button>
+
+            <button
+                class="secondary"
+                onclick="showMenu()"
+            >
+                ← Back
+            </button>
+
+            <div id="withdrawMessage" class="message"></div>
+
+        </div>
+
+
+        <!-- DEPOSIT -->
+
+        <div id="depositScreen" class="hidden">
+
+            <h2>💵 DEPOSIT MONEY</h2>
+
+            <p>
+                Current Balance:
+                ₹<span id="depositBalance"></span>
+            </p>
+
+            <div class="input-group">
+
+                <label>Enter Amount</label>
+
+                <input
+                    type="number"
+                    id="depositAmount"
+                    placeholder="Enter amount"
+                >
+
+            </div>
+
+            <button onclick="deposit()">
+                DEPOSIT
+            </button>
+
+            <button
+                class="secondary"
+                onclick="showMenu()"
+            >
+                ← Back
+            </button>
+
+            <div id="depositMessage" class="message"></div>
+
+        </div>
+
+
+        <!-- TRANSACTIONS -->
+
+        <div id="transactionScreen" class="hidden">
+
+            <h2>📜 TRANSACTION HISTORY</h2>
+
+            <div
+                id="transactionList"
+                class="transaction-list"
+            ></div>
+
+            <button
+                class="secondary"
+                onclick="showMenu()"
+            >
+                ← Back
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ATM HARDWARE DESIGN -->
+
+    <div class="card-slot"></div>
+
+    <div class="cash-slot"></div>
+
+    <div class="footer">
+        Secure ATM Banking System
+    </div>
+
+</div>
+
+
+<script>
+
+    // ==========================================
+    // BANK ACCOUNT DATA
+    // ==========================================
+
+    let account = {
+
+        name: "",
+
+        address: "",
+
+        phone: "",
+
+        aadhaar: "",
+
+        age: 0,
+
+        gender: "",
+
+        pin: "",
+
+        balance: 10000,
+
+        accountType: "",
+
+        accountNumber: "",
+
+        ifsc: "",
+
+        transactions: []
+
+    };
+
+
+    // ==========================================
+    // CREATE ACCOUNT
+    // ==========================================
+
+    function generateAccountNumber() {
+
+        return String(Math.floor(1000000000 + Math.random() * 9000000000));
+
+    }
+
+    function generateIfscCode() {
+
+        return "ATMZ000" + Math.floor(1000 + Math.random() * 9000);
+
+    }
+
+    function createAccount() {
+
+        let name =
+            document.getElementById("name").value.trim();
+
+        let address =
+            document.getElementById("address").value.trim();
+
+        let phone =
+            document.getElementById("phone").value.trim();
+
+        let aadhaar =
+            document.getElementById("aadhaar").value.trim();
+
+        let age =
+            Number(document.getElementById("age").value);
+
+        let gender =
+            document.getElementById("gender").value;
+
+        let message =
+            document.getElementById("createMessage");
+
+
+        // Validate name
+
+        if (name === "") {
+
+            message.innerHTML =
+                "❌ Please enter your name.";
+
+            message.className =
+                "message error";
+
+            return;
+        }
+
+        if (address === "") {
+
+            message.innerHTML =
+                "❌ Please enter your address.";
+
+            message.className =
+                "message error";
+
+            return;
+        }
+
+        if (!/^\d{10}$/.test(phone)) {
+
+            message.innerHTML =
+                "❌ Phone number must contain exactly 10 digits.";
+
+            message.className =
+                "message error";
+
+            return;
+        }
+
+        if (!/^\d{12}$/.test(aadhaar)) {
+
+            message.innerHTML =
+                "❌ Aadhaar number must contain exactly 12 digits.";
+
+            message.className =
+                "message error";
+
+            return;
+        }
+
+        if (!Number.isInteger(age) || age < 1 || age > 120) {
+
+            message.innerHTML =
+                "❌ Please enter a valid age between 1 and 120.";
+
+            message.className =
+                "message error";
+
+            return;
+        }
+
+        if (gender === "") {
+
+            message.innerHTML =
+                "❌ Please select your gender.";
+
+            message.className =
+                "message error";
+
+            return;
+        }
+
+
+        // Create account
+
+        account.name = name;
+
+        account.address = address;
+
+        account.phone = phone;
+
+        account.aadhaar = aadhaar;
+
+        account.age = age;
+
+        account.gender = gender;
+
+        account.pin = "";
+
+        account.balance = 10000;
+
+        account.accountType = age < 18 ? "Minor Account" : "Major Account";
+
+        account.accountNumber = generateAccountNumber();
+
+        account.ifsc = generateIfscCode();
+
+        account.transactions = [];
+
+
+        // Display account details
+
+        document.getElementById("displayName")
+            .innerText = account.name;
+
+        document.getElementById("displayAccountType")
+            .innerText = account.accountType;
+
+        document.getElementById("displayAccountNumber")
+            .innerText = account.accountNumber;
+
+        document.getElementById("displayIfsc")
+            .innerText = account.ifsc;
+
+        document.getElementById("displayPhone")
+            .innerText = account.phone;
+
+        document.getElementById("displayAge")
+            .innerText = account.age;
+
+        document.getElementById("displayGender")
+            .innerText = account.gender;
+
+        document.getElementById("displayAadhaar")
+            .innerText = "********" + account.aadhaar.slice(-4);
+
+        document.getElementById("displayAddress")
+            .innerText = account.address;
+
+        // Change screen
+
+        document.getElementById("createAccount")
+            .classList.add("hidden");
+
+        document.getElementById("accountCreated")
+            .classList.remove("hidden");
+
+    }
+
+
+    // ==========================================
+    // SHOW LOGIN
+    // ==========================================
+
+    function showLogin() {
+
+        hideAllScreens();
+
+        document
+            .getElementById("login")
+            .classList.remove("hidden");
+
+        updateLoginScreen();
+
+    }
+
+
+    function updateLoginScreen() {
+
+        let hasPin = account.pin !== "";
+
+        document.getElementById("loginTitle")
+            .innerText = hasPin ? "🔐 ATM LOGIN" : "🔐 CREATE ATM PIN";
+
+        document.getElementById("loginPinLabel")
+            .innerText = hasPin ? "ATM PIN" : "Create 4-Digit ATM PIN";
+
+        document.getElementById("loginPin")
+            .placeholder = hasPin ? "Enter 4-digit PIN" : "Create 4-digit PIN";
+
+        document.getElementById("loginButtonText")
+            .innerText = hasPin ? "LOGIN" : "CREATE PIN";
+
+    }
+
+
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
+    function login() {
+
+        let enteredPin =
+            document.getElementById("loginPin").value;
+
+        let message =
+            document.getElementById("loginMessage");
+
+
+        if (!/^\d{4}$/.test(enteredPin)) {
+
+            message.innerHTML =
+                "❌ PIN must contain exactly 4 digits.";
+
+            message.className =
+                "message error";
+
+            return;
+
+        }
+
+
+        if (account.pin === "") {
+
+            account.pin = enteredPin;
+
+            message.innerHTML =
+                "✅ PIN created successfully";
+
+            message.className =
+                "message success";
+
+            document.getElementById("loginPin").value = "";
+
+            setTimeout(function() {
+
+                showMenu();
+
+            }, 500);
+
+            return;
+
+        }
+
+
+        if (enteredPin === account.pin) {
+
+            document.getElementById("welcomeName")
+                .innerText = account.name;
+
+            message.innerHTML =
+                "✅ Login Successful";
+
+            message.className =
+                "message success";
+
+
+            setTimeout(function() {
+
+                showMenu();
+
+            }, 500);
+
+        }
+
+        else {
+
+            message.innerHTML =
+                "❌ Incorrect PIN";
+
+            message.className =
+                "message error";
+
+        }
+
+    }
+
+
+    // ==========================================
+    // SHOW MENU
+    // ==========================================
+
+    function showMenu() {
+
+        hideAllScreens();
+
+        document
+            .getElementById("menuScreen")
+            .classList.remove("hidden");
+
+    }
+
+
+    // ==========================================
+    // CHECK BALANCE
+    // ==========================================
+
+    function checkBalance() {
+
+        hideAllScreens();
+
+        document.getElementById("balanceAmount")
+            .innerText =
+            account.balance.toFixed(2);
+
+        document
+            .getElementById("balanceScreen")
+            .classList.remove("hidden");
+
+    }
+
+
+    // ==========================================
+    // SHOW WITHDRAW
+    // ==========================================
+
+    function showWithdraw() {
+
+        hideAllScreens();
+
+        document.getElementById("withdrawBalance")
+            .innerText =
+            account.balance.toFixed(2);
+
+        document
+            .getElementById("withdrawScreen")
+            .classList.remove("hidden");
+
+    }
+
+
+    // ==========================================
+    // WITHDRAW MONEY
+    // ==========================================
+
+    function withdraw() {
+
+        let amount =
+            Number(
+                document.getElementById(
+                    "withdrawAmount"
+                ).value
+            );
+
+        let message =
+            document.getElementById(
+                "withdrawMessage"
+            );
+
+
+        // Invalid amount
+
+        if (amount <= 0 || isNaN(amount)) {
+
+            message.innerHTML =
+                "❌ Invalid withdrawal amount.";
+
+            message.className =
+                "message error";
+
+            return;
+
+        }
+
+
+        // Insufficient balance
+
+        if (amount > account.balance) {
+
+            message.innerHTML =
+                "❌ INSUFFICIENT BALANCE<br>" +
+                "Available Balance: ₹" +
+                account.balance.toFixed(2);
+
+            message.className =
+                "message error";
+
+            return;
+
+        }
+
+
+        // Withdraw
+
+        account.balance -= amount;
+
+
+        // Date and time
+
+        let dateTime =
+            new Date().toLocaleString();
+
+
+        // Transaction
+
+        account.transactions.push({
+
+            dateTime: dateTime,
+
+            type: "Withdraw",
+
+            amount: amount,
+
+            balance: account.balance
+
+        });
+
+
+        message.innerHTML =
+            "✅ Transaction Successful<br>" +
+            "Withdraw Amount: ₹" +
+            amount.toFixed(2) +
+            "<br>" +
+            "Remaining Balance: ₹" +
+            account.balance.toFixed(2);
+
+        message.className =
+            "message success";
+
+
+        document.getElementById(
+            "withdrawBalance"
+        ).innerText =
+            account.balance.toFixed(2);
+
+
+        document.getElementById(
+            "withdrawAmount"
+        ).value = "";
+
+    }
+
+
+    // ==========================================
+    // SHOW DEPOSIT
+    // ==========================================
+
+    function showDeposit() {
+
+        hideAllScreens();
+
+        document.getElementById("depositBalance")
+            .innerText =
+            account.balance.toFixed(2);
+
+        document
+            .getElementById("depositScreen")
+            .classList.remove("hidden");
+
+    }
+
+
+    // ==========================================
+    // DEPOSIT MONEY
+    // ==========================================
+
+    function deposit() {
+
+        let amount =
+            Number(
+                document.getElementById(
+                    "depositAmount"
+                ).value
+            );
+
+        let message =
+            document.getElementById(
+                "depositMessage"
+            );
+
+
+        // Validate amount
+
+        if (amount <= 0 || isNaN(amount)) {
+
+            message.innerHTML =
+                "❌ Invalid deposit amount.";
+
+            message.className =
+                "message error";
+
+            return;
+
+        }
+
+
+        // Deposit
+
+        account.balance += amount;
+
+
+        // Date & Time
+
+        let dateTime =
+            new Date().toLocaleString();
+
+
+        // Save transaction
+
+        account.transactions.push({
+
+            dateTime: dateTime,
+
+            type: "Deposit",
+
+            amount: amount,
+
+            balance: account.balance
+
+        });
+
+
+        message.innerHTML =
+            "✅ Deposit Successful<br>" +
+            "Deposited Amount: ₹" +
+            amount.toFixed(2) +
+            "<br>" +
+            "New Balance: ₹" +
+            account.balance.toFixed(2);
+
+        message.className =
+            "message success";
+
+
+        document.getElementById(
+            "depositBalance"
+        ).innerText =
+            account.balance.toFixed(2);
+
+
+        document.getElementById(
+            "depositAmount"
+        ).value = "";
+
+    }
+
+
+    // ==========================================
+    // TRANSACTION HISTORY
+    // ==========================================
+
+    function showTransactions() {
+
+        hideAllScreens();
+
+        let list =
+            document.getElementById(
+                "transactionList"
+            );
+
+        list.innerHTML = "";
+
+
+        if (account.transactions.length === 0) {
+
+            list.innerHTML =
+                "<p>No transactions available.</p>";
+
+        }
+
+        else {
+
+            account.transactions.forEach(
+                function(transaction) {
+
+                    let div =
+                        document.createElement("div");
+
+                    div.className =
+                        "transaction";
+
+                    div.innerHTML =
+
+                        "🕒 " +
+                        transaction.dateTime +
+
+                        "<br>" +
+
+                        "Type: " +
+                        transaction.type +
+
+                        "<br>" +
+
+                        "Amount: ₹" +
+                        transaction.amount.toFixed(2) +
+
+                        "<br>" +
+
+                        "Balance: ₹" +
+                        transaction.balance.toFixed(2);
+
+                    list.appendChild(div);
+
+                }
+            );
+
+        }
+
+
+        document
+            .getElementById("transactionScreen")
+            .classList.remove("hidden");
+
+    }
+
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
+
+    function logout() {
+
+        alert(
+            "Thank you for using our ATM.\n" +
+            "Please collect your card."
+        );
+
+        hideAllScreens();
+
+        document
+            .getElementById("login")
+            .classList.remove("hidden");
+
+        document.getElementById(
+            "loginPin"
+        ).value = "";
+
+        updateLoginScreen();
+
+    }
+
+
+    // ==========================================
+    // HIDE ALL SCREENS
+    // ==========================================
+
+    function hideAllScreens() {
+
+        let screens = [
+
+            "createAccount",
+
+            "accountCreated",
+
+            "login",
+
+            "menuScreen",
+
+            "balanceScreen",
+
+            "withdrawScreen",
+
+            "depositScreen",
+
+            "transactionScreen"
+
+        ];
+
+
+        screens.forEach(function(id) {
+
+            document
+                .getElementById(id)
+                .classList.add("hidden");
+
+        });
+
+    }
+
+</script>
+
+</body>
+</html>
