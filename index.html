@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ATM Machine</title>
+    <title>Sky Singh Cloud Bank</title>
 
     <style>
         * {
@@ -254,8 +254,8 @@
     <!-- ATM HEADER -->
 
     <div class="atm-top">
-        <h1>🏦 ATM MACHINE</h1>
-        <p>Secure Banking System</p>
+        <h1>☁️ SKY SINGH CLOUD BANK</h1>
+        <p>Secure Digital Banking System</p>
     </div>
 
 
@@ -265,7 +265,47 @@
 
         <!-- CREATE ACCOUNT -->
 
-        <div id="createAccount">
+        <div id="welcomeScreen">
+            <h2 id="welcomeTitle">Welcome to Sky Singh Cloud Bank</h2>
+            <p id="welcomeText">Please select your preferred language.</p>
+            <div class="input-group">
+                <label id="languageLabel">Select Language</label>
+                <select id="language" onchange="setLanguage()">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी (Hindi)</option>
+                    <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+                </select>
+            </div>
+            <button onclick="showStartOptions()" id="languageContinue">CONTINUE</button>
+        </div>
+
+        <div id="startOptions" class="hidden">
+            <h2 id="startTitle">WELCOME</h2>
+            <p id="startText">Choose an option to continue.</p>
+            <button onclick="startNewAccount()" id="createNewButton">CREATE NEW ACCOUNT</button>
+            <button class="secondary" onclick="showCustomerLogin()" id="existingLoginButton">LOGIN TO EXISTING ACCOUNT</button>
+        </div>
+
+        <div id="customerLogin" class="hidden">
+            <h2 id="customerLoginTitle">CUSTOMER LOGIN</h2>
+            <p id="customerLoginText">Login using your registered mobile number or ATM card number.</p>
+            <div class="input-group">
+                <label id="loginMethodLabel">Login Method</label>
+                <select id="customerLoginMethod" onchange="updateCustomerLoginField()">
+                    <option value="phone">Mobile Number</option>
+                    <option value="card">ATM Card Number</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label id="customerIdLabel">Registered Mobile Number</label>
+                <input type="text" id="customerId" inputmode="numeric" placeholder="Enter 10-digit mobile number">
+            </div>
+            <button onclick="customerLogin()" id="customerLoginButton">CONTINUE</button>
+            <button class="secondary" onclick="showStartOptions()" id="customerLoginBack">← BACK</button>
+            <div id="customerLoginMessage" class="message"></div>
+        </div>
+
+        <div id="createAccount" class="hidden">
 
             <h2>CREATE ACCOUNT</h2>
 
@@ -358,6 +398,11 @@
                 <p>
                     <strong>Account Number:</strong>
                     <span id="displayAccountNumber"></span>
+                </p>
+
+                <p>
+                    <strong>ATM Card Number:</strong>
+                    <span id="displayAtmCard"></span>
                 </p>
 
                 <p>
@@ -648,6 +693,8 @@
 
         otp: "",
 
+        atmCardNumber: "",
+
         accountType: "",
 
         accountNumber: "",
@@ -669,11 +716,97 @@
 
     }
 
+    function generateAtmCardNumber() {
+        return String(Math.floor(1000000000000000 + Math.random() * 9000000000000000));
+    }
+
     function generateIfscCode() {
 
         return "ATMZ000" + Math.floor(1000 + Math.random() * 9000);
 
     }
+
+    let selectedLanguage = "en";
+
+    const translations = {
+        en: { welcome:"Welcome to Sky Singh Cloud Bank", select:"Please select your preferred language.", language:"Select Language", continue:"CONTINUE", start:"WELCOME", choose:"Choose an option to continue.", create:"CREATE NEW ACCOUNT", login:"LOGIN TO EXISTING ACCOUNT", customer:"CUSTOMER LOGIN", customerText:"Login using your registered mobile number or ATM card number.", method:"Login Method", mobile:"Mobile Number", card:"ATM Card Number", registered:"Registered Mobile Number", enterMobile:"Enter 10-digit mobile number", enterCard:"Enter ATM card number", back:"← BACK", loginContinue:"CONTINUE" },
+        hi: { welcome:"Sky Singh Cloud Bank में आपका स्वागत है", select:"कृपया अपनी भाषा चुनें।", language:"भाषा चुनें", continue:"जारी रखें", start:"स्वागत है", choose:"आगे बढ़ने के लिए एक विकल्प चुनें।", create:"नया खाता बनाएं", login:"मौजूदा खाते में लॉगिन करें", customer:"ग्राहक लॉगिन", customerText:"अपने पंजीकृत मोबाइल नंबर या ATM कार्ड नंबर से लॉगिन करें।", method:"लॉगिन तरीका", mobile:"मोबाइल नंबर", card:"ATM कार्ड नंबर", registered:"पंजीकृत मोबाइल नंबर", enterMobile:"10 अंकों का मोबाइल नंबर दर्ज करें", enterCard:"ATM कार्ड नंबर दर्ज करें", back:"← वापस", loginContinue:"जारी रखें" },
+        pa: { welcome:"Sky Singh Cloud Bank ਵਿੱਚ ਤੁਹਾਡਾ ਸਵਾਗਤ ਹੈ", select:"ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ।", language:"ਭਾਸ਼ਾ ਚੁਣੋ", continue:"ਜਾਰੀ ਰੱਖੋ", start:"ਜੀ ਆਇਆਂ ਨੂੰ", choose:"ਅੱਗੇ ਵਧਣ ਲਈ ਇੱਕ ਵਿਕਲਪ ਚੁਣੋ।", create:"ਨਵਾਂ ਖਾਤਾ ਬਣਾਓ", login:"ਮੌਜੂਦਾ ਖਾਤੇ ਵਿੱਚ ਲਾਗਇਨ ਕਰੋ", customer:"ਗਾਹਕ ਲਾਗਇਨ", customerText:"ਆਪਣੇ ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਨੰਬਰ ਜਾਂ ATM ਕਾਰਡ ਨੰਬਰ ਨਾਲ ਲਾਗਇਨ ਕਰੋ।", method:"ਲਾਗਇਨ ਤਰੀਕਾ", mobile:"ਮੋਬਾਈਲ ਨੰਬਰ", card:"ATM ਕਾਰਡ ਨੰਬਰ", registered:"ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਨੰਬਰ", enterMobile:"10 ਅੰਕਾਂ ਦਾ ਮੋਬਾਈਲ ਨੰਬਰ ਦਾਖਲ ਕਰੋ", enterCard:"ATM ਕਾਰਡ ਨੰਬਰ ਦਾਖਲ ਕਰੋ", back:"← ਵਾਪਸ", loginContinue:"ਜਾਰੀ ਰੱਖੋ" }
+    };
+
+    function setLanguage() {
+        selectedLanguage = document.getElementById("language").value;
+        let t = translations[selectedLanguage];
+        document.getElementById("welcomeTitle").innerText = t.welcome;
+        document.getElementById("welcomeText").innerText = t.select;
+        document.getElementById("languageLabel").innerText = t.language;
+        document.getElementById("languageContinue").innerText = t.continue;
+        document.getElementById("startTitle").innerText = t.start;
+        document.getElementById("startText").innerText = t.choose;
+        document.getElementById("createNewButton").innerText = t.create;
+        document.getElementById("existingLoginButton").innerText = t.login;
+        document.getElementById("customerLoginTitle").innerText = t.customer;
+        document.getElementById("customerLoginText").innerText = t.customerText;
+        document.getElementById("loginMethodLabel").innerText = t.method;
+        document.getElementById("customerLoginButton").innerText = t.loginContinue;
+        document.getElementById("customerLoginBack").innerText = t.back;
+        updateCustomerLoginField();
+    }
+
+    function showStartOptions() {
+        hideAllScreens();
+        document.getElementById("startOptions").classList.remove("hidden");
+    }
+
+    function startNewAccount() {
+        hideAllScreens();
+        document.getElementById("createAccount").classList.remove("hidden");
+    }
+
+    function showCustomerLogin() {
+        hideAllScreens();
+        document.getElementById("customerLogin").classList.remove("hidden");
+        document.getElementById("customerLoginMessage").innerHTML = "";
+        document.getElementById("customerId").value = "";
+        updateCustomerLoginField();
+    }
+
+    function updateCustomerLoginField() {
+        let method = document.getElementById("customerLoginMethod").value;
+        let t = translations[selectedLanguage];
+        document.getElementById("customerIdLabel").innerText = method === "phone" ? t.registered : t.card;
+        document.getElementById("customerId").placeholder = method === "phone" ? t.enterMobile : t.enterCard;
+    }
+
+    function customerLogin() {
+        let method = document.getElementById("customerLoginMethod").value;
+        let value = document.getElementById("customerId").value.trim();
+        let message = document.getElementById("customerLoginMessage");
+
+        if (account.name === "") {
+            message.innerHTML = "❌ No account has been created in this demo yet. Please create a new account first.";
+            message.className = "message error";
+            return;
+        }
+
+        let valid = method === "phone"
+            ? value === account.phone
+            : value === account.atmCardNumber;
+
+        if (!valid) {
+            message.innerHTML = "❌ Invalid login details.";
+            message.className = "message error";
+            return;
+        }
+
+        message.innerHTML = "✅ Login details verified.";
+        message.className = "message success";
+
+        setTimeout(function() {
+            showLogin();
+        }, 400);
+    }
+
 
     function createAccount() {
 
@@ -790,6 +923,8 @@
 
         account.accountNumber = generateAccountNumber();
 
+        account.atmCardNumber = generateAtmCardNumber();
+
         account.ifsc = generateIfscCode();
 
         account.transactions = [];
@@ -805,6 +940,8 @@
 
         document.getElementById("displayAccountNumber")
             .innerText = account.accountNumber;
+
+        document.getElementById("displayAtmCard").innerText = "************" + account.atmCardNumber.slice(-4);
 
         document.getElementById("displayIfsc")
             .innerText = account.ifsc;
@@ -1325,9 +1462,7 @@
 
         hideAllScreens();
 
-        document
-            .getElementById("login")
-            .classList.remove("hidden");
+        document.getElementById("startOptions").classList.remove("hidden");
 
         document.getElementById(
             "loginPin"
@@ -1345,6 +1480,12 @@
     function hideAllScreens() {
 
         let screens = [
+
+            "welcomeScreen",
+
+            "startOptions",
+
+            "customerLogin",
 
             "createAccount",
 
