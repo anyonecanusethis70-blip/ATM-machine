@@ -284,6 +284,7 @@
             <p id="startText">Choose an option to continue.</p>
             <button onclick="startNewAccount()" id="createNewButton">CREATE NEW ACCOUNT</button>
             <button class="secondary" onclick="showCustomerLogin()" id="existingLoginButton">LOGIN TO EXISTING ACCOUNT</button>
+            <button class="secondary" onclick="showWelcome()">← BACK</button>
         </div>
 
         <div id="customerLogin" class="hidden">
@@ -372,6 +373,8 @@
                 CREATE ACCOUNT
             </button>
 
+            <button class="secondary" onclick="showStartOptions()">← BACK</button>
+
             <div id="createMessage" class="message"></div>
 
         </div>
@@ -446,6 +449,8 @@
                 Continue to ATM
             </button>
 
+            <button class="secondary" onclick="startNewAccount()">← BACK</button>
+
         </div>
 
 
@@ -458,6 +463,7 @@
                 <input type="text" id="otpInput" maxlength="6" inputmode="numeric" placeholder="Enter 6-digit OTP">
             </div>
             <button onclick="verifyOtp()">VERIFY OTP</button>
+            <button class="secondary" onclick="showAccountCreated()">← BACK</button>
             <div id="otpMessage" class="message"></div>
         </div>
 
@@ -484,6 +490,8 @@
             <button onclick="login()">
                 <span id="loginButtonText">CREATE PIN</span>
             </button>
+
+            <button class="secondary" onclick="backFromPin()">← BACK</button>
 
             <div id="loginMessage" class="message"></div>
 
@@ -751,6 +759,23 @@
         document.getElementById("customerLoginButton").innerText = t.loginContinue;
         document.getElementById("customerLoginBack").innerText = t.back;
         updateCustomerLoginField();
+    }
+
+    function showWelcome() {
+        hideAllScreens();
+        document.getElementById("welcomeScreen").classList.remove("hidden");
+    }
+
+    function showAccountCreated() {
+        hideAllScreens();
+        document.getElementById("accountCreated").classList.remove("hidden");
+    }
+
+    function backFromPin() {
+        hideAllScreens();
+        document.getElementById("otpScreen").classList.remove("hidden");
+        document.getElementById("otpMessage").innerHTML = "🔐 Please enter the OTP generated for authentication.";
+        document.getElementById("otpMessage").className = "message";
     }
 
     function showStartOptions() {
