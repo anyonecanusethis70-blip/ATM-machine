@@ -54,6 +54,8 @@
             background: #071a13;
             color: #00ff88;
             min-height: 390px;
+            max-height: 78vh;
+            overflow-y: auto;
             border: 8px solid #444;
             border-radius: 10px;
             padding: 20px;
@@ -742,9 +744,107 @@
         pa: { welcome:"Sky Singh Cloud Bank ਵਿੱਚ ਤੁਹਾਡਾ ਸਵਾਗਤ ਹੈ", select:"ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ।", language:"ਭਾਸ਼ਾ ਚੁਣੋ", continue:"ਜਾਰੀ ਰੱਖੋ", start:"ਜੀ ਆਇਆਂ ਨੂੰ", choose:"ਅੱਗੇ ਵਧਣ ਲਈ ਇੱਕ ਵਿਕਲਪ ਚੁਣੋ।", create:"ਨਵਾਂ ਖਾਤਾ ਬਣਾਓ", login:"ਮੌਜੂਦਾ ਖਾਤੇ ਵਿੱਚ ਲਾਗਇਨ ਕਰੋ", customer:"ਗਾਹਕ ਲਾਗਇਨ", customerText:"ਆਪਣੇ ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਨੰਬਰ ਜਾਂ ATM ਕਾਰਡ ਨੰਬਰ ਨਾਲ ਲਾਗਇਨ ਕਰੋ।", method:"ਲਾਗਇਨ ਤਰੀਕਾ", mobile:"ਮੋਬਾਈਲ ਨੰਬਰ", card:"ATM ਕਾਰਡ ਨੰਬਰ", registered:"ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਨੰਬਰ", enterMobile:"10 ਅੰਕਾਂ ਦਾ ਮੋਬਾਈਲ ਨੰਬਰ ਦਾਖਲ ਕਰੋ", enterCard:"ATM ਕਾਰਡ ਨੰਬਰ ਦਾਖਲ ਕਰੋ", back:"← ਵਾਪਸ", loginContinue:"ਜਾਰੀ ਰੱਖੋ" }
     };
 
+
+    // Translate all visible static interface text across every screen.
+    const fullTranslations = {
+        en: {},
+        hi: {
+            "Secure Digital Banking System":"सुरक्षित डिजिटल बैंकिंग सिस्टम",
+            "CREATE ACCOUNT":"नया खाता बनाएं",
+            "Enter Your Name":"अपना नाम दर्ज करें",
+            "Enter name":"नाम दर्ज करें",
+            "Enter Your Address":"अपना पता दर्ज करें",
+            "Enter address":"पता दर्ज करें",
+            "Enter Phone Number":"मोबाइल नंबर दर्ज करें",
+            "Enter 10-digit phone number":"10 अंकों का मोबाइल नंबर दर्ज करें",
+            "Enter Aadhaar Number":"आधार नंबर दर्ज करें",
+            "Enter 12-digit Aadhaar number":"12 अंकों का आधार नंबर दर्ज करें",
+            "Enter Your Age":"अपनी आयु दर्ज करें",
+            "Enter age":"आयु दर्ज करें",
+            "Choose Gender":"लिंग चुनें",
+            "Select gender":"लिंग का चयन करें",
+            "Male":"पुरुष","Female":"महिला","Other":"अन्य",
+            "← BACK":"← पीछे","← Back":"← पीछे",
+            "Continue to ATM":"ATM पर जारी रखें",
+            "OTP AUTHENTICATION":"OTP प्रमाणीकरण",
+            "A 6-digit OTP has been generated for authentication.":"प्रमाणीकरण के लिए 6 अंकों का OTP बनाया गया है।",
+            "Enter OTP":"OTP दर्ज करें","Enter 6-digit OTP":"6 अंकों का OTP दर्ज करें",
+            "VERIFY OTP":"OTP सत्यापित करें",
+            "WELCOME TO ATM":"ATM में आपका स्वागत है",
+            "Welcome,":"स्वागत है,",
+            "💰 Check Balance":"💰 बैलेंस देखें","💸 Withdraw":"💸 पैसे निकालें",
+            "💵 Deposit":"💵 पैसे जमा करें","📜 Transactions":"📜 लेनदेन",
+            "🚪 Exit":"🚪 बाहर निकलें","ACCOUNT BALANCE":"खाता बैलेंस",
+            "Available Balance:":"उपलब्ध बैलेंस:","WITHDRAW MONEY":"पैसे निकालें",
+            "Enter Amount":"राशि दर्ज करें","Enter amount":"राशि दर्ज करें",
+            "WITHDRAW":"निकालें","DEPOSIT MONEY":"पैसे जमा करें",
+            "Current Balance:":"वर्तमान बैलेंस:","DEPOSIT":"जमा करें",
+            "TRANSACTION HISTORY":"लेनदेन इतिहास",
+            "ACCOUNT CREATED":"खाता बन गया",
+            "Account Holder:":"खाताधारक:","Account Type:":"खाते का प्रकार:",
+            "Account Number:":"खाता नंबर:","ATM Card Number:":"ATM कार्ड नंबर:",
+            "IFSC Code:":"IFSC कोड:","Phone:":"फोन:","Age:":"आयु:",
+            "Gender:":"लिंग:","Aadhaar:":"आधार:","Address:":"पता:",
+            "Initial Balance:":"प्रारंभिक बैलेंस:"
+        },
+        pa: {
+            "Secure Digital Banking System":"ਸੁਰੱਖਿਅਤ ਡਿਜਿਟਲ ਬੈਂਕਿੰਗ ਸਿਸਟਮ",
+            "CREATE ACCOUNT":"ਨਵਾਂ ਖਾਤਾ ਬਣਾਓ",
+            "Enter Your Name":"ਆਪਣਾ ਨਾਮ ਦਰਜ ਕਰੋ","Enter name":"ਨਾਮ ਦਰਜ ਕਰੋ",
+            "Enter Your Address":"ਆਪਣਾ ਪਤਾ ਦਰਜ ਕਰੋ","Enter address":"ਪਤਾ ਦਰਜ ਕਰੋ",
+            "Enter Phone Number":"ਫੋਨ ਨੰਬਰ ਦਰਜ ਕਰੋ","Enter 10-digit phone number":"10 ਅੰਕਾਂ ਦਾ ਫੋਨ ਨੰਬਰ ਦਰਜ ਕਰੋ",
+            "Enter Aadhaar Number":"ਆਧਾਰ ਨੰਬਰ ਦਰਜ ਕਰੋ","Enter 12-digit Aadhaar number":"12 ਅੰਕਾਂ ਦਾ ਆਧਾਰ ਨੰਬਰ ਦਰਜ ਕਰੋ",
+            "Enter Your Age":"ਆਪਣੀ ਉਮਰ ਦਰਜ ਕਰੋ","Enter age":"ਉਮਰ ਦਰਜ ਕਰੋ",
+            "Choose Gender":"ਲਿੰਗ ਚੁਣੋ","Select gender":"ਲਿੰਗ ਚੁਣੋ",
+            "Male":"ਮਰਦ","Female":"ਔਰਤ","Other":"ਹੋਰ",
+            "← BACK":"← ਪਿੱਛੇ","← Back":"← ਪਿੱਛੇ",
+            "Continue to ATM":"ATM ਤੇ ਜਾਰੀ ਰੱਖੋ",
+            "OTP AUTHENTICATION":"OTP ਪ੍ਰਮਾਣਿਕਤਾ",
+            "A 6-digit OTP has been generated for authentication.":"ਪ੍ਰਮਾਣਿਕਤਾ ਲਈ 6 ਅੰਕਾਂ ਦਾ OTP ਬਣਾਇਆ ਗਿਆ ਹੈ।",
+            "Enter OTP":"OTP ਦਰਜ ਕਰੋ","Enter 6-digit OTP":"6 ਅੰਕਾਂ ਦਾ OTP ਦਰਜ ਕਰੋ",
+            "VERIFY OTP":"OTP ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ",
+            "WELCOME TO ATM":"ATM ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ","Welcome,":"ਜੀ ਆਇਆਂ ਨੂੰ,",
+            "💰 Check Balance":"💰 ਬੈਲੈਂਸ ਵੇਖੋ","💸 Withdraw":"💸 ਪੈਸੇ ਕੱਢੋ",
+            "💵 Deposit":"💵 ਪੈਸੇ ਜਮ੍ਹਾਂ ਕਰੋ","📜 Transactions":"📜 ਲੈਣ-ਦੇਣ",
+            "🚪 Exit":"🚪 ਬਾਹਰ ਜਾਓ","ACCOUNT BALANCE":"ਖਾਤਾ ਬੈਲੈਂਸ",
+            "Available Balance:":"ਉਪਲਬਧ ਬੈਲੈਂਸ:","WITHDRAW MONEY":"ਪੈਸੇ ਕੱਢੋ",
+            "Enter Amount":"ਰਕਮ ਦਰਜ ਕਰੋ","Enter amount":"ਰਕਮ ਦਰਜ ਕਰੋ",
+            "WITHDRAW":"ਕੱਢੋ","DEPOSIT MONEY":"ਪੈਸੇ ਜਮ੍ਹਾਂ ਕਰੋ",
+            "Current Balance:":"ਮੌਜੂਦਾ ਬੈਲੈਂਸ:","DEPOSIT":"ਜਮ੍ਹਾਂ ਕਰੋ",
+            "TRANSACTION HISTORY":"ਲੈਣ-ਦੇਣ ਇਤਿਹਾਸ",
+            "ACCOUNT CREATED":"ਖਾਤਾ ਬਣ ਗਿਆ",
+            "Account Holder:":"ਖਾਤਾ ਧਾਰਕ:","Account Type:":"ਖਾਤੇ ਦੀ ਕਿਸਮ:",
+            "Account Number:":"ਖਾਤਾ ਨੰਬਰ:","ATM Card Number:":"ATM ਕਾਰਡ ਨੰਬਰ:",
+            "IFSC Code:":"IFSC ਕੋਡ:","Phone:":"ਫੋਨ:","Age:":"ਉਮਰ:",
+            "Gender:":"ਲਿੰਗ:","Aadhaar:":"ਆਧਾਰ:","Address:":"ਪਤਾ:",
+            "Initial Balance:":"ਸ਼ੁਰੂਆਤੀ ਬੈਲੈਂਸ:"
+        }
+    };
+
+    function translateWholeInterface() {
+        const dict = fullTranslations[selectedLanguage] || {};
+        const walker = document.createTreeWalker(document.querySelector(".atm"), NodeFilter.SHOW_TEXT);
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        nodes.forEach(node => {
+            const value = node.nodeValue;
+            const key = node.__sourceText || value.trim();
+            if (!node.__sourceText && key) node.__sourceText = key;
+            if (!key) return;
+            const translated = selectedLanguage === "en" ? key : (dict[key] || key);
+            node.nodeValue = value.match(/^\s*/)[0] + translated + value.match(/\s*$/)[0];
+        });
+        document.querySelectorAll("input[placeholder]").forEach(el => {
+            if (!el.dataset.sourcePlaceholder) el.dataset.sourcePlaceholder = el.placeholder;
+            const key = el.dataset.sourcePlaceholder;
+            el.placeholder = selectedLanguage === "en" ? key : (dict[key] || key);
+        });
+    }
+
     function setLanguage() {
         selectedLanguage = document.getElementById("language").value;
         let t = translations[selectedLanguage];
+        document.documentElement.lang = selectedLanguage;
         document.getElementById("welcomeTitle").innerText = t.welcome;
         document.getElementById("welcomeText").innerText = t.select;
         document.getElementById("languageLabel").innerText = t.language;
@@ -758,6 +858,7 @@
         document.getElementById("loginMethodLabel").innerText = t.method;
         document.getElementById("customerLoginButton").innerText = t.loginContinue;
         document.getElementById("customerLoginBack").innerText = t.back;
+        translateWholeInterface();
         updateCustomerLoginField();
     }
 
